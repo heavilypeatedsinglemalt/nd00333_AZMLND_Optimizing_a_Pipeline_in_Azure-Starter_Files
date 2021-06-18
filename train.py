@@ -18,12 +18,7 @@ from azureml.core import Dataset
 ds =  Dataset.Tabular.from_delimited_files(path='https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv')
 
 
-x, y = clean_data(ds)
-x_train, x_test, y_train, y_test = train_test_split(
-    x, 
-    y, 
-    test_size=0.20, 
-    random_state=2)
+
 # TODO: Split data into train and test sets.
 
 ### YOUR CODE HERE ###a
@@ -53,9 +48,15 @@ def clean_data(data):
     x_df["month"] = x_df.month.map(months)
     x_df["day_of_week"] = x_df.day_of_week.map(weekdays)
     x_df["poutcome"] = x_df.poutcome.apply(lambda s: 1 if s == "success" else 0)
-
     y_df = x_df.pop("y").apply(lambda s: 1 if s == "yes" else 0)
+    return (x_df,y_df) 
     
+x, y = clean_data(ds)
+x_train, x_test, y_train, y_test = train_test_split(
+    x, 
+    y, 
+    test_size=0.20, 
+    random_state=2)
 
 def main():
     # Add arguments to script
